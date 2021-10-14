@@ -20,7 +20,11 @@ body {
   min-height: 100vh;
 }
 
-.app {
+.app_title {
+  padding: 15px 0px;
+}
+
+.quiz_body {
   background-color: #252d4a;
   width: 450px;
   min-height: 200px;

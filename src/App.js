@@ -5,7 +5,7 @@ function App() {
   const questions = [
     {
       queText: 'What is the capital of France?',
-      answeroptions: [
+      answerOptions: [
         {ansText: 'London', isCorrect: false},
         {ansText: 'Paris', isCorrect: true},
         {ansText: 'Dubai', isCorrect: false},
@@ -14,7 +14,7 @@ function App() {
     },
     {
       queText: 'Who is CEO of Tesla?',
-      answeroptions: [
+      answerOptions: [
         { ansText: 'Jeff Bezos', isCorrect: false },
 				{ ansText: 'Elon Musk', isCorrect: true },
 				{ ansText: 'Bill Gates', isCorrect: false },
@@ -23,7 +23,7 @@ function App() {
     },
     {
       queText: 'The iPhone was created by which company?',
-      answeroptions: [
+      answerOptions: [
         { ansText: 'Apple', isCorrect: true },
 				{ ansText: 'Intel', isCorrect: false },
 				{ ansText: 'Amazon', isCorrect: false },
@@ -32,7 +32,7 @@ function App() {
     },
     {
       queText: 'How many Harry Potter books are there?',
-      answeroptions: [
+      answerOptions: [
         { ansText: '1', isCorrect: false },
 				{ ansText: '4', isCorrect: false },
 				{ ansText: '6', isCorrect: false },
@@ -41,28 +41,49 @@ function App() {
     }
   ];
 
+  const [currQue, setCurrQue] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+  const [score, setScore] = useState(0);
+
+  function handleQuestion(ansValue){
+
+    if(ansValue === true){
+      setScore(score + 1);
+    }
+
+    const nextQue = currQue + 1;
+    if(nextQue < questions.length){
+      setCurrQue(nextQue);
+    }else {
+      setShowScore(true);
+    }
+    
+  }
+
   return (
     <div className="app">
-      {/* <h1 className="app_title">Quiz Hut</h1> */}
+      <h1 className="app_title">Quiz Hut</h1>
       
-      { false ? (
-				<div className='score-section'>You scored 1 out of {questions.length}</div>
+      <div className="quiz_body">
+      { showScore ? (
+				<div className='score-section'>You scored {score} out of {questions.length}</div>
 			) : (
 				<>
 					<div className='question-section'>
 						<div className='question-count'>
-							<span>Question 1</span>/{questions.length}
+							<span>Question {currQue + 1}</span>/{questions.length}
 						</div>
-						<div className='question-text'>This is where the question text should go</div>
+						<div className='question-text'>{questions[currQue].queText}</div>
 					</div>
 					<div className='answer-section'>
-						<button>Answer 1</button>
-						<button>Answer 2</button>
-						<button>Answer 3</button>
-						<button>Answer 4</button>
+						{questions[currQue].answerOptions.map( (answerOption) => {
+              return <button onClick={() => handleQuestion(answerOption.isCorrect)}>{answerOption.ansText}</button>
+            })}
 					</div>
 				</>
 			)}
+      </div>
+      
     </div>
   );
 }
